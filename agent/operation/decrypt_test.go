@@ -15,11 +15,17 @@ func TestDecryptFile(t *testing.T) {
 		Target 		: "127.0.0.1:23333",
 	}
 	err := AesEncryptFileAuto(arg, arg.FilePath)
+	if err != nil {
+		fmt.Println("Error", err)
+		return
+	}
 	arg = cli.Args {
 		FilePath 	: "/Users/kaitoY/Documents/test/test.txt.blackbox",
 		Suffix 		: "blackbox",
 		Target 		: "127.0.0.1:23333",
 	}
 	err = AesDecryptFileAuto(arg, arg.FilePath)
-	fmt.Println(err)
+	if err != nil {
+		fmt.Println("Error", err)
+	}
 }

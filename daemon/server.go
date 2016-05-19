@@ -18,8 +18,8 @@ func AcceptConn(ln net.Listener, cc chan net.Conn) {
 			log.Println(err)
 			continue
 		}
+		//log.Println("New connection accepted:", conn)
 		cc <- conn
-		return
 	}
 }
 
@@ -68,8 +68,8 @@ func (s *Server) Ready() error {
 		go w.Loop()
 	}
 
-	for {
-		go AcceptConn(s.listener, pending)
+	go AcceptConn(s.listener, pending)
+	for {	
 		select {
 		case pair := <- results:
 			rcache.Update(pair.Key, pair.Value)

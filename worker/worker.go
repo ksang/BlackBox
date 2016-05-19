@@ -1,3 +1,4 @@
+
 package worker
 
 import (
@@ -34,6 +35,9 @@ func (w *Worker) Loop() {
 		select {
 		case conn := <- w.pending:
 			err = doWork(conn, w.rcache, w.result)
+			if err != nil {
+				log.Println(err)
+			}
 		case errc := <- w.stopping:
 			errc <- err
 			return
