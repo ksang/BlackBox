@@ -1,14 +1,14 @@
 package daemon
 
 import (
+	"crypto/tls"
 	"log"
 	"net"
 	"strconv"
-	"crypto/tls"
 
 	"blackbox/cli"
-	"blackbox/worker"
 	"blackbox/constants"
+	"blackbox/worker"
 )
 
 func AcceptConn(ln net.Listener, cc chan net.Conn) {
@@ -24,15 +24,15 @@ func AcceptConn(ln net.Listener, cc chan net.Conn) {
 }
 
 type Server struct {
-	workerNum int	
-	listener net.Listener
+	workerNum int
+	listener  net.Listener
 }
 
 func NewServer() *Server {
-	s := Server {
-					workerNum 	: constants.WORKER_NUM,
-					listener  	: nil,
-				}
+	s := Server{
+		workerNum: constants.WORKER_NUM,
+		listener:  nil,
+	}
 	return &s
 }
 
@@ -45,7 +45,7 @@ func (s *Server) Start(args cli.Args) error {
 		return err
 	}
 	config := &tls.Config{Certificates: []tls.Certificate{cer}}
-	ln, err := tls.Listen("tcp", ":" + strconv.Itoa(args.Port), config) 
+	ln, err := tls.Listen("tcp", ":"+strconv.Itoa(args.Port), config)
 	if err != nil {
 		log.Println(err)
 		return err
@@ -69,11 +69,11 @@ func (s *Server) Ready() error {
 	}
 
 	go AcceptConn(s.listener, pending)
-	for {	
+	for {
 		select {
-		case pair := <- results:
+		case pair := <-results:
 			rcache.Update(pair.Key, pair.Value)
 			wcache.Update(pair.Key, pair.Value)
-		}		
-	}	
+		}
+	}
 }

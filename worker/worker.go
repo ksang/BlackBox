@@ -1,44 +1,43 @@
-
 package worker
 
 import (
-	"net"
 	"log"
+	"net"
 )
 
 type Worker struct {
 	stopping chan chan error
-	pending chan net.Conn
-	result chan Pair
-	rcache *Cache
+	pending  chan net.Conn
+	result   chan Pair
+	rcache   *Cache
 }
 
 func NewWorker(p chan net.Conn, r chan Pair, rc *Cache) *Worker {
-	w := &Worker{ 
-					stopping : make(chan chan error),
-					pending  : p,
-					result   : r,
-					rcache   : rc,
-				}
+	w := &Worker{
+		stopping: make(chan chan error),
+		pending:  p,
+		result:   r,
+		rcache:   rc,
+	}
 	return w
 }
 
 func (w *Worker) Stop() error {
 	errc := make(chan error)
 	w.stopping <- errc
-	return <- errc
+	return <-errc
 }
 
 func (w *Worker) Loop() {
 	var err error
-	for{
+	for {
 		select {
-		case conn := <- w.pending:
+		case conn := <-w.pending:
 			err = doWork(conn, w.rcache, w.result)
 			if err != nil {
 				log.Println(err)
 			}
-		case errc := <- w.stopping:
+		case errc := <-w.stopping:
 			errc <- err
 			return
 		}
@@ -59,7 +58,7 @@ func doWork(conn net.Conn, rc *Cache, result chan Pair) error {
 		if err != nil {
 			log.Println(n, err)
 			return err
-		} 
+		}
 	} else {
 		value, err := GenerateValue(16)
 		if err != nil {

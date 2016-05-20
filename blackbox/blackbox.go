@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
-	"flag"
 	"blackbox/cli"
 	"blackbox/daemon"
+	"flag"
+	"fmt"
 )
 
 func main() {

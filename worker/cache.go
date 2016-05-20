@@ -3,7 +3,7 @@ package worker
 import "fmt"
 
 type Pair struct {
-	Key string
+	Key   string
 	Value string
 }
 
@@ -14,14 +14,14 @@ type Caches interface {
 
 type Cache struct {
 	Pairs map[string]string
-	Size int
+	Size  int
 }
 
 func NewCache() *Cache {
-	c := &Cache {
-					Pairs : make(map[string]string),
-					Size  : 0,
-				}
+	c := &Cache{
+		Pairs: make(map[string]string),
+		Size:  0,
+	}
 	return c
 }
 

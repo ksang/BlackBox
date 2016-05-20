@@ -1,10 +1,10 @@
 package worker
 
 import (
-	"io"
-	"fmt"
-	"errors"
 	"bufio"
+	"errors"
+	"fmt"
+	"io"
 
 	"blackbox/constants"
 )
@@ -24,7 +24,8 @@ func ParseRequest(r io.Reader) (string, error) {
 		fmt.Println(err, scanner.Text())
 		return "", err
 	}
-	for scanner.Scan() {}
+	for scanner.Scan() {
+	}
 	if err := scanner.Err(); err != nil {
 		fmt.Println("Error reading input:", err)
 		return "", err

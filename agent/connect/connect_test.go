@@ -1,10 +1,10 @@
 package connect
 
 import (
+	"blackbox/agent/cli"
+	"blackbox/worker"
 	"fmt"
 	"testing"
-	"blackbox/worker"
-	"blackbox/agent/cli"
 )
 
 func TestConnect(t *testing.T) {
@@ -29,7 +29,7 @@ func TestConnect(t *testing.T) {
 		//fmt.Println("Got secret pair:", r)
 		res = append(res, string(r))
 	}
-	for _,r := range res {
+	for _, r := range res {
 		fmt.Println(r)
 	}
 	//re-check old keys

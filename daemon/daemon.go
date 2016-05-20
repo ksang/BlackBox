@@ -1,8 +1,8 @@
 package daemon
 
 import (
-	"fmt"
 	"blackbox/cli"
+	"fmt"
 )
 
 func StartServer(args cli.Args) {

@@ -1,14 +1,14 @@
-package cli 
+package cli
 
 import (
 	"flag"
 )
 
 type Args struct {
-	Daemon bool 
-	Port int 
+	Daemon   bool
+	Port     int
 	CertFile string
-	KeyFile string
+	KeyFile  string
 }
 
 func Parse() Args {
@@ -17,10 +17,10 @@ func Parse() Args {
 	var certFile = flag.String("c", "server.pem", "Server cert file.")
 	var keyFile = flag.String("k", "server.key", "Server key file.")
 	flag.Parse()
-	return Args{	
-				Daemon: *daemon, 
-				Port: *port, 
-				CertFile: *certFile, 
-				KeyFile: *keyFile,
-			}
+	return Args{
+		Daemon:   *daemon,
+		Port:     *port,
+		CertFile: *certFile,
+		KeyFile:  *keyFile,
+	}
 }
