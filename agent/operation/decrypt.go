@@ -8,8 +8,8 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"errors"
-	"fmt"
 	"io/ioutil"
+	"log"
 	"path/filepath"
 	"strings"
 )
@@ -28,8 +28,8 @@ func AesDecryptFile(cipherdata []byte, hash []byte, key []byte, opath string) er
 	cfb.XORKeyStream(plain, cipherdata[md5.Size+aes.BlockSize:])
 	fhash := md5.Sum(plain)
 	if hex.EncodeToString(fhash[:]) != hex.EncodeToString(hash) {
-		fmt.Println("Fhash:", hex.EncodeToString(fhash[:]))
-		fmt.Println("Hash:", hex.EncodeToString(hash))
+		log.Println("Fhash:", hex.EncodeToString(fhash[:]))
+		log.Println("Hash:", hex.EncodeToString(hash))
 		return errors.New("md5 value not match")
 	}
 	err = ioutil.WriteFile(opath, plain, 0644)
@@ -64,7 +64,7 @@ func AesDecryptFileAuto(arg cli.Args, path string) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println("Decrypted file saved to:", opath)
+	log.Println("Decrypted file saved to:", opath)
 	return nil
 }
 

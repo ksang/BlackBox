@@ -39,6 +39,6 @@ func TestConnect(t *testing.T) {
 			fmt.Println("RequestSecret Error:", err)
 			continue
 		}
-		fmt.Println("Old Key Received:", r)
+		fmt.Println("Old Key Received:", string(r))
 	}
 }

@@ -3,8 +3,8 @@ package worker
 import (
 	"bufio"
 	"errors"
-	"fmt"
 	"io"
+	"log"
 
 	"blackbox/constants"
 )
@@ -21,13 +21,13 @@ func ParseRequest(r io.Reader) (string, error) {
 		}
 	} else {
 		err := errors.New("message header error.")
-		fmt.Println(err, scanner.Text())
+		log.Println(err, scanner.Text())
 		return "", err
 	}
 	for scanner.Scan() {
 	}
 	if err := scanner.Err(); err != nil {
-		fmt.Println("Error reading input:", err)
+		log.Println("Error reading input:", err)
 		return "", err
 	}
 	return "", nil

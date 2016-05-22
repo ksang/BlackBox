@@ -4,13 +4,13 @@ import (
 	"blackbox/agent/cli"
 	"blackbox/agent/operation"
 	"flag"
-	"fmt"
+	"log"
 )
 
 func main() {
 	args, err := cli.Parse()
 	if err != nil {
-		fmt.Println(err)
+		log.Print(err)
 		flag.PrintDefaults()
 		return
 	}
@@ -22,7 +22,7 @@ func main() {
 			err = operation.AesEncryptFolderAuto(args, args.FolderPath)
 		}
 		if err != nil {
-			fmt.Println("FAILED:", err)
+			log.Fatal("FAILED:", err)
 			return
 		}
 	case cli.MODE_DECRYPT:
@@ -32,7 +32,7 @@ func main() {
 			err = operation.AesDecryptFolderAuto(args, args.FolderPath)
 		}
 		if err != nil {
-			fmt.Println("FAILED:", err)
+			log.Fatal("FAILED:", err)
 			return
 		}
 	}
