@@ -8,7 +8,12 @@ import (
 )
 
 func TestConnect(t *testing.T) {
-	arg := cli.Args{Target: "127.0.0.1:23333"}
+	arg := cli.Args{
+						Target: "127.0.0.1:23333",
+						CertFile:   "/Users/kaitoY/Documents/sslcerts/blackbox-agent-cert.pem",
+						KeyFile:    "/Users/kaitoY/Documents/sslcerts/private/blackbox-agent-key.pem",
+						CaCert:     "/Users/kaitoY/Documents/sslcerts/cacert.pem",
+					}
 	keys := make([]string, 10)
 	for i := 0; i < 10; i++ {
 		key, err := worker.GenerateValue(16)

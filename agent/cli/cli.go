@@ -19,6 +19,7 @@ type Args struct {
 	Target     string
 	CertFile   string
 	KeyFile    string
+	CaCert	   string
 }
 
 func Parse() (Args, error) {
@@ -33,6 +34,7 @@ func Parse() (Args, error) {
 		"Target address with port.")
 	var certFile = flag.String("c", "agent.pem", "Agent cert file.")
 	var keyFile = flag.String("k", "agent.key", "Agent key file.")
+	var caCert = flag.String("a", "ca.pem", "CA cert file.")
 	flag.Parse()
 	mode := -1
 	if *encrypt && !*decrypt {
@@ -54,5 +56,6 @@ func Parse() (Args, error) {
 		Target:     *target,
 		CertFile:   *certFile,
 		KeyFile:    *keyFile,
+		CaCert:     *caCert,
 	}, nil
 }

@@ -4,18 +4,35 @@ import (
 	"blackbox/agent/cli"
 	"blackbox/constants"
 	"crypto/tls"
+	"crypto/x509"
 	"io"
+	"io/ioutil"
 	"log"
 	"net"
 )
 
-func Connect(arg cli.Args) (net.Conn, error) {
+func Connect(args cli.Args) (net.Conn, error) {
 
-	conf := &tls.Config{
-		InsecureSkipVerify: true,
+	//init ca certificate
+	caCert, err := ioutil.ReadFile(args.CaCert)
+	if err != nil {
+		log.Println(err)
+		return nil, err
 	}
-	log.Print("Connecting to: ", arg.Target)
-	conn, err := tls.Dial("tcp", arg.Target, conf)
+	caCertPool := x509.NewCertPool()
+	caCertPool.AppendCertsFromPEM(caCert)
+	// init client certificate
+	cer, err := tls.LoadX509KeyPair(args.CertFile, args.KeyFile)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	tlsConfig := &tls.Config{
+		Certificates: []tls.Certificate{cer},
+		RootCAs: caCertPool,
+	}
+	log.Print("Connecting to: ", args.Target)
+	conn, err := tls.Dial("tcp", args.Target, tlsConfig)
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -25,6 +42,10 @@ func Connect(arg cli.Args) (net.Conn, error) {
 
 func RequestSecret(arg cli.Args, key string) ([]byte, error) {
 	conn, err := Connect(arg)
+	if err != nil{
+		log.Print("Connection failed.")
+		return nil, err
+	}
 	defer conn.Close()
 
 	req := constants.KEY_REQUEST_HEADER + " " + key + "\n"

@@ -9,6 +9,7 @@ type Args struct {
 	Port     int
 	CertFile string
 	KeyFile  string
+	CaCert   string
 	DbPath   string
 }
 
@@ -17,6 +18,7 @@ func Parse() Args {
 	var port = flag.Int("p", 23333, "Listen port.")
 	var certFile = flag.String("c", "server.pem", "Server cert file.")
 	var keyFile = flag.String("k", "server.key", "Server key file.")
+	var caCert = flag.String("a", "ca.pem", "CA cert file.")
 	var dbPath = flag.String("f", "/tmp", "Database cache location.")
 	flag.Parse()
 	return Args{
@@ -25,5 +27,6 @@ func Parse() Args {
 		CertFile: *certFile,
 		KeyFile:  *keyFile,
 		DbPath:   *dbPath,
+		CaCert:   *caCert,
 	}
 }

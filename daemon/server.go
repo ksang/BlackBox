@@ -2,9 +2,11 @@ package daemon
 
 import (
 	"crypto/tls"
+	"crypto/x509"
 	"log"
 	"net"
 	"os"
+	"io/ioutil"
 	"os/signal"
 	"strconv"
 	"time"
@@ -78,15 +80,27 @@ func (s *Server) Start(args cli.Args) error {
 		return err
 	}
 
+	//init ca certificate
+	caCert, err := ioutil.ReadFile(args.CaCert)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	caCertPool := x509.NewCertPool()
+	caCertPool.AppendCertsFromPEM(caCert)
 	// init server certificate
 	cer, err := tls.LoadX509KeyPair(args.CertFile, args.KeyFile)
 	if err != nil {
 		log.Println(err)
 		return err
 	}
-	config := &tls.Config{Certificates: []tls.Certificate{cer}}
+	tlsConfig := &tls.Config{
+		Certificates: []tls.Certificate{cer},
+		ClientCAs: caCertPool,
+		ClientAuth: tls.RequireAndVerifyClientCert,
+	}
 	port := strconv.Itoa(args.Port)
-	ln, err := tls.Listen("tcp", ":"+port, config)
+	ln, err := tls.Listen("tcp", ":"+port, tlsConfig)
 	if err != nil {
 		log.Println(err)
 		return err

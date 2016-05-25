@@ -20,7 +20,7 @@ func ParseRequest(r io.Reader) (string, error) {
 			return key, nil
 		}
 	} else {
-		err := errors.New("message header error.")
+		err := errors.New("Message header error.")
 		log.Println(err, scanner.Text())
 		return "", err
 	}
