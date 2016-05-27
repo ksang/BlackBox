@@ -1,6 +1,13 @@
 # BlackBox
 Encryption Key Management System
 
+BlackBox enables you keep file encrytion key on the server, agent never keeps the key and only gets it's key on-demand.
+System using client side certificate authentication, following extension is required:
+"X509v3 Extended Key Usage: TLS Web Client Authentication, TLS Web Server Authentication"
+
+NOTE:
+    For the certificate signature hash algorithm, md5 is not supported, please use sha256/384/512 instead.
+
 ### BlackBox
 	Server side program, generate and keep keys.
 	  -a string
