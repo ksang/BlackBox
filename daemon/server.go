@@ -3,10 +3,10 @@ package daemon
 import (
 	"crypto/tls"
 	"crypto/x509"
+	"io/ioutil"
 	"log"
 	"net"
 	"os"
-	"io/ioutil"
 	"os/signal"
 	"strconv"
 	"time"
@@ -101,8 +101,8 @@ func (s *Server) Start(args cli.Args) error {
 	}
 	tlsConfig := &tls.Config{
 		Certificates: []tls.Certificate{cer},
-		ClientCAs: caCertPool,
-		ClientAuth: tls.RequireAndVerifyClientCert,
+		ClientCAs:    caCertPool,
+		ClientAuth:   tls.RequireAndVerifyClientCert,
 	}
 	port := strconv.Itoa(args.Port)
 	ln, err := tls.Listen("tcp", ":"+port, tlsConfig)

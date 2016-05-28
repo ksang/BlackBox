@@ -2,7 +2,6 @@
 Package cache implements a interface to use gkvlite.
 It simplifies the usage for blackbox server.
 */
-
 package cache
 
 import (
