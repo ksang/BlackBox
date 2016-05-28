@@ -1,3 +1,8 @@
+/*
+Blackbox agent is a client side program which encrypt/decrypt files.
+It request blackbox server for encryption keys when need to do operations.
+Agent never keeps the key.
+*/
 package main
 
 import (

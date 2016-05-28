@@ -17,6 +17,7 @@ import (
 	"blackbox/worker"
 )
 
+// Accept connections and put it to channel for pending workers.
 func acceptConn(ln net.Listener, cc chan net.Conn) {
 	for {
 		conn, err := ln.Accept()
@@ -29,6 +30,7 @@ func acceptConn(ln net.Listener, cc chan net.Conn) {
 	}
 }
 
+// A signal generator to generate flush signal telling caller to flush cache.
 func flushSignal(interval time.Duration) chan bool {
 	fc := make(chan bool)
 	go func() {
@@ -46,6 +48,7 @@ type Server struct {
 	cache     *cache.Cache
 }
 
+// Handle ctrl-c keyboard interrupt.
 func handleInterrupt(s *Server) {
 	intc := make(chan os.Signal)
 	// catch interrupt signal
@@ -71,6 +74,8 @@ func NewServer() *Server {
 	return &s
 }
 
+// Init server, includeing loading certificates and create sockets.
+// In the end it will call Ready() to create workers and channels.
 func (s *Server) Start(args cli.Args) error {
 
 	// init database cache
@@ -115,6 +120,7 @@ func (s *Server) Start(args cli.Args) error {
 	return nil
 }
 
+//
 func (s *Server) Ready() error {
 	defer func() {
 		s.listener.Close()

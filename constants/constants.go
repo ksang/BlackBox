@@ -1,3 +1,6 @@
+/*
+Package constants define constant variables for the entire blackbox project.
+*/
 package constants
 
 const (

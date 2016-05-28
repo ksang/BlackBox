@@ -1,3 +1,7 @@
+/*
+Package worker impelements worker goroutines to generate random values.
+The value will be used by blackbox agent for file encryption/decryption.
+*/
 package worker
 
 import (
@@ -18,6 +22,7 @@ type Worker struct {
 	cache    *cache.Cache
 }
 
+// Create worker
 func NewWorker(p chan net.Conn, r chan Pair, c *cache.Cache) *Worker {
 	return &Worker{
 		stopping: make(chan chan error),
@@ -27,12 +32,16 @@ func NewWorker(p chan net.Conn, r chan Pair, c *cache.Cache) *Worker {
 	}
 }
 
+// Stop worker goroutine, it passes an chan error to worker.Stopping
+// to get error back from worker.
 func (w *Worker) Stop() error {
 	errc := make(chan error)
 	w.stopping <- errc
 	return <-errc
 }
 
+// Worker looping to get pending connection and then doWork.
+// It also receives stopping signal to terminate.
 func (w *Worker) Loop() {
 	var err error
 	for {
@@ -49,6 +58,8 @@ func (w *Worker) Loop() {
 	}
 }
 
+// doWork is the function to actually parse request from connection
+// and generate random values.
 func doWork(conn net.Conn, cache *cache.Cache, result chan Pair) error {
 	defer conn.Close()
 	key, err := ParseRequest(conn)
