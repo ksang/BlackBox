@@ -1,3 +1,7 @@
+// Package cli implements command line arguments.
+// It will also raise errors when user provide
+// incorrect arguments.
+
 package cli
 
 import (
@@ -12,7 +16,7 @@ type Args struct {
 	CaCert   string
 	DbPath   string
 }
-
+// Parse arguments from command line and raise error if necessary.
 func Parse() Args {
 	var daemon = flag.Bool("d", false, "Daemon mode.")
 	var port = flag.Int("p", 23333, "Listen port.")

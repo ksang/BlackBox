@@ -1,3 +1,7 @@
+/* 
+Package connect implements connection and protocol
+functions to blackbox servrer.
+*/
 package connect
 
 import (
@@ -6,29 +10,16 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"io"
-	"io/ioutil"
 	"log"
 	"net"
 )
 
+// Connects to blackbox server, using client certificate authentication.
 func Connect(args cli.Args) (net.Conn, error) {
-
-	//init ca certificate
-	caCert, err := ioutil.ReadFile(args.CaCert)
-	if err != nil {
-		log.Println(err)
-		return nil, err
-	}
 	caCertPool := x509.NewCertPool()
-	caCertPool.AppendCertsFromPEM(caCert)
-	// init client certificate
-	cer, err := tls.LoadX509KeyPair(args.CertFile, args.KeyFile)
-	if err != nil {
-		log.Println(err)
-		return nil, err
-	}
+	caCertPool.AppendCertsFromPEM(args.CaCertData)
 	tlsConfig := &tls.Config{
-		Certificates: []tls.Certificate{cer},
+		Certificates: []tls.Certificate{args.AgentCert},
 		RootCAs: caCertPool,
 	}
 	log.Print("Connecting to: ", args.Target)
@@ -40,14 +31,8 @@ func Connect(args cli.Args) (net.Conn, error) {
 	return conn, nil
 }
 
-func RequestSecret(arg cli.Args, key string) ([]byte, error) {
-	conn, err := Connect(arg)
-	if err != nil{
-		log.Print("Connection failed.")
-		return nil, err
-	}
-	defer conn.Close()
-
+// Get a connection to blackbox server then request secret.
+func RequestSecretConn(conn net.Conn, key string) ([]byte, error) {
 	req := constants.KEY_REQUEST_HEADER + " " + key + "\n"
 	log.Print("Sending request: ", req)
 	n, err := conn.Write([]byte(req))
@@ -63,5 +48,16 @@ func RequestSecret(arg cli.Args, key string) ([]byte, error) {
 		log.Println(n, err)
 		return nil, err
 	}
-	return buf[:n], nil
+	return buf[:n], nil	
+}
+
+// Connects to blackbox server and get encryption key, finally close the connection.
+func RequestSecret(arg cli.Args, key string) ([]byte, error) {
+	conn, err := Connect(arg)
+	if err != nil{
+		log.Print("Connection failed.")
+		return nil, err
+	}
+	defer conn.Close()
+	return RequestSecretConn(conn, key)
 }

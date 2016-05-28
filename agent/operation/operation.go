@@ -1,3 +1,7 @@
+/*
+Package operation is for agent file/folder encryption/decryption.
+It is the core for blackbox agent side program.
+*/
 package operation
 
 import (
@@ -24,10 +28,12 @@ func fileOp(f func(cli.Args, string) error,
 	errc <- err
 }
 
-// method for encrypt/decrypt folder concurrently
+// folderOp is for encrypt/decrypt folder concurrently
+// it acceptes encryption/decryption function.
 func folderOp(f func(cli.Args, string) error,
 	arg cli.Args,
 	path string) error {
+
 	errc := make(chan error)
 	var done int
 	files, err := getFolderFiles(path)
@@ -55,6 +61,7 @@ func folderOp(f func(cli.Args, string) error,
 	}
 }
 
+// Recursively look into the root folder and get all files.
 func getFolderFiles(root string) ([]string, error) {
 	_, err := os.Stat(root)
 	if err != nil {

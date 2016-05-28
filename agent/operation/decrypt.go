@@ -14,7 +14,11 @@ import (
 	"strings"
 )
 
-func AesDecryptFile(cipherdata []byte, hash []byte, key []byte, opath string) error {
+// Decrypt a single file, write output to opath.
+func AesDecryptFile(cipherdata []byte,
+	hash []byte,
+	key []byte,
+	opath string) error {
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		return err
@@ -39,6 +43,8 @@ func AesDecryptFile(cipherdata []byte, hash []byte, key []byte, opath string) er
 	return nil
 }
 
+// A wrapper of AesDecryptFile, including get file hash and connects
+// to blackbox server for getting encryption key.
 func AesDecryptFileAuto(arg cli.Args, path string) error {
 	cipherdata, err := ioutil.ReadFile(path)
 	if err != nil {
@@ -68,6 +74,7 @@ func AesDecryptFileAuto(arg cli.Args, path string) error {
 	return nil
 }
 
+// Recursively decrypt files within the root directory.
 func AesDecryptFolderAuto(arg cli.Args, path string) error {
 	return folderOp(AesDecryptFileAuto, arg, path)
 }
