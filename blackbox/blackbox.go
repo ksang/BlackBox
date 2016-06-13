@@ -7,9 +7,9 @@ The value is used for encrypt/decrypt files.
 package main
 
 import (
+	"flag"
 	"github.com/ksang/blackbox/cli"
 	"github.com/ksang/blackbox/daemon"
-	"flag"
 )
 
 func main() {

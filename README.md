@@ -8,6 +8,10 @@ System using client side certificate authentication, following extension is requ
 NOTE:
     For the certificate signature hash algorithm, md5 is not supported, please use sha256/384/512 instead.
 
+### Requirement:
+	gkvlite
+	go get github.com/steveyen/gkvlite
+
 ### BlackBox
 	Server side program, generate and keep keys.
 	  -a string

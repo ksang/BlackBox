@@ -6,9 +6,9 @@ Agent never keeps the key.
 package main
 
 import (
+	"flag"
 	"github.com/ksang/blackbox/agent/cli"
 	"github.com/ksang/blackbox/agent/operation"
-	"flag"
 	"log"
 )
 
