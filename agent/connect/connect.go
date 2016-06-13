@@ -5,8 +5,8 @@ functions to blackbox servrer.
 package connect
 
 import (
-	"blackbox/agent/cli"
-	"blackbox/constants"
+	"github.com/ksang/blackbox/agent/cli"
+	"github.com/ksang/blackbox/constants"
 	"crypto/tls"
 	"crypto/x509"
 	"io"

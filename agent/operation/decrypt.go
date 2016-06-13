@@ -1,8 +1,8 @@
 package operation
 
 import (
-	"blackbox/agent/cli"
-	"blackbox/agent/connect"
+	"github.com/ksang/blackbox/agent/cli"
+	"github.com/ksang/blackbox/agent/connect"
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/md5"

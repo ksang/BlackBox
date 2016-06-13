@@ -7,8 +7,8 @@ The value is used for encrypt/decrypt files.
 package main
 
 import (
-	"blackbox/cli"
-	"blackbox/daemon"
+	"github.com/ksang/blackbox/cli"
+	"github.com/ksang/blackbox/daemon"
 	"flag"
 )
 

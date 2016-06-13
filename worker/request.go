@@ -6,7 +6,7 @@ import (
 	"io"
 	"log"
 
-	"blackbox/constants"
+	"github.com/ksang/blackbox/constants"
 )
 
 func ParseRequest(r io.Reader) (string, error) {

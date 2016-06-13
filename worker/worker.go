@@ -5,7 +5,7 @@ The value will be used by blackbox agent for file encryption/decryption.
 package worker
 
 import (
-	"blackbox/cache"
+	"github.com/ksang/blackbox/cache"
 	"log"
 	"net"
 )

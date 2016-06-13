@@ -5,7 +5,7 @@ It is the core for blackbox agent side program.
 package operation
 
 import (
-	"blackbox/agent/cli"
+	"github.com/ksang/blackbox/agent/cli"
 	"log"
 	"os"
 	"path/filepath"

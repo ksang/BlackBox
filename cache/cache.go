@@ -5,7 +5,7 @@ It simplifies the usage for blackbox server.
 package cache
 
 import (
-	"blackbox/constants"
+	"github.com/ksang/blackbox/constants"
 	"github.com/steveyen/gkvlite"
 	"log"
 	"os"

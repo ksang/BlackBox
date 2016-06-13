@@ -7,7 +7,7 @@ The workers will act similar to a thread pool, ensure stable performance.
 package daemon
 
 import (
-	"blackbox/cli"
+	"github.com/ksang/blackbox/cli"
 	"log"
 )
 

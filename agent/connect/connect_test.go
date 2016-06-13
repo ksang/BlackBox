@@ -1,8 +1,8 @@
 package connect
 
 import (
-	"blackbox/agent/cli"
-	"blackbox/worker"
+	"github.com/ksang/blackbox/agent/cli"
+	"github.com/ksang/blackbox/worker"
 	"fmt"
 	"testing"
 )

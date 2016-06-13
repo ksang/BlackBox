@@ -1,7 +1,7 @@
 package operation
 
 import (
-	"blackbox/agent/cli"
+	"github.com/ksang/blackbox/agent/cli"
 	"fmt"
 	"testing"
 )

@@ -11,10 +11,10 @@ import (
 	"strconv"
 	"time"
 
-	"blackbox/cache"
-	"blackbox/cli"
-	"blackbox/constants"
-	"blackbox/worker"
+	"github.com/ksang/blackbox/cache"
+	"github.com/ksang/blackbox/cli"
+	"github.com/ksang/blackbox/constants"
+	"github.com/ksang/blackbox/worker"
 )
 
 // Accept connections and put it to channel for pending workers.
